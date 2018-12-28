@@ -1,25 +1,22 @@
 import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
-import akka.stream.scaladsl.Source
-import com.jwierzbicki.rinkebyfaucet.http.{FaucetRoute, WebServer}
+import com.jwierzbicki.rinkebyfaucet.http.{ WebServer}
 
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.{Await, ExecutionContext}
 import com.typesafe.config._
 
-import scala.io.StdIn
 import scala.concurrent.duration._
 
 
 object Boot extends App {
 
-  def startApplication(): Unit =
-  {
+  def startApplication(): Unit = {
 
     implicit val system = ActorSystem("rinkeby-faucet", ConfigFactory.load())
     implicit val materializer = ActorMaterializer()
     implicit val executionContext: ExecutionContext = system.dispatcher
 
+    // start the party
     new WebServer(ConfigFactory.load()).start()
 
     sys.addShutdownHook(() => {

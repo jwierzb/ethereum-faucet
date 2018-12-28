@@ -5,10 +5,12 @@
 package com.jwierzbicki.rinkebyfaucet.Json
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import com.jwierzbicki.rinkebyfaucet._
 import com.jwierzbicki.rinkebyfaucet.model._
 import spray.json.DefaultJsonProtocol
 
+/**
+  * Class providing function relevant in model object's json processing
+  */
 trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
 
   implicit val jsonRPCMethodFormat = jsonFormat4(JsonRPCMethod)
