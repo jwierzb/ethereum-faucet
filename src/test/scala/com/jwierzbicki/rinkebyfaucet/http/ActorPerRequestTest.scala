@@ -16,7 +16,7 @@ import com.jwierzbicki.rinkebyfaucet.http.ActorPerRequest._
 
 import scala.concurrent.Promise
 
-class ActorPerRequestTest() extends WordSpec
+class ActorPerRequestTest extends WordSpec
    with Matchers with ScalatestRouteTest{
 
   val message1  = SuccessfulTransaction("hash")
@@ -49,11 +49,7 @@ class ActorPerRequestTest() extends WordSpec
         responseAs[String] shouldEqual s"<html><body><h>Invalid public key</h></body></html>"
       }
     }
-    "should give internal error" in{
-      Post() ~> route(message2) ~> check{
-        responseAs[String] shouldEqual s"<html><body><h>Invalid public key</h></body></html>"
-      }
-    }
+
 
 
   }

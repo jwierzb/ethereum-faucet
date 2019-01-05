@@ -17,7 +17,7 @@ import com.jwierzbicki.rinkebyfaucet.model._
 import scala.concurrent.ExecutionContext
 
 
-class MySpec() extends TestKit(ActorSystem("rinkeby-faucet")) with ImplicitSender
+class JsonRPCActorTest extends TestKit(ActorSystem("rinkeby-faucet")) with ImplicitSender
   with WordSpecLike with Matchers with BeforeAndAfterAll {
 
 
@@ -35,7 +35,7 @@ class MySpec() extends TestKit(ActorSystem("rinkeby-faucet")) with ImplicitSende
       implicit var tran = TransferRequest("0xa2df2")
 
       actor ! tran
-      expectMsg(PublicKeyInvalid)
+      expectMsg(PublicKeyInvalid())
 
     }
 

@@ -19,7 +19,6 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.6",
   "com.typesafe.akka" %% "akka-testkit" % "2.5.19" % Test,
   "com.typesafe.akka" %% "akka-http-testkit" % "10.1.6",
-  "org.mockito" % "mockito-all" % "1.9.5" % Test
 
 
 )
