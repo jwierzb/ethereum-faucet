@@ -18,7 +18,9 @@ import com.jwierzbicki.rinkebyfaucet.model.{ModelRequest, TransferRequest}
 
 import scala.concurrent.{ExecutionContext, Promise}
 
-
+/*
+Web application controller trait
+ */
 trait ConnectionController {
 
   implicit def actorSystem: ActorSystem
@@ -29,7 +31,7 @@ trait ConnectionController {
 
   val mainRoute: Route =
 
-    path("") {
+    path("faucet") {
 
       get {
         complete(HttpEntity(
@@ -56,7 +58,6 @@ trait ConnectionController {
 
   def handleRequest(targetProps: Props, request: ModelRequest): Route = ctx => {
     val p = Promise[RouteResult]
-    print(ctx)
     perRequest(ctx, targetProps, request, p)(actorSystem)
     p.future
   }

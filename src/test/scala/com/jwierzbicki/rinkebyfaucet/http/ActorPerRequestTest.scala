@@ -48,7 +48,6 @@ class ActorPerRequestTest() extends WordSpec
   }
 
 
-
   "PerRequest actor" must{
     "give right transaction hash" in{
       Post() ~> route(message1)~> check{

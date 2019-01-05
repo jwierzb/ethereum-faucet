@@ -97,7 +97,6 @@ class JsonRPCActor(implicit ma: Materializer) extends Actor with ActorLogging wi
       import akka.http.scaladsl.unmarshalling.Unmarshal
       try {
         val response = Await.result(Unmarshal(res.entity).to[JsonRPCSucces], 10.millis)
-        print("lol"+SuccessfulTransaction(response.result))
         context.parent ! SuccessfulTransaction(response.result)
       }
       catch {

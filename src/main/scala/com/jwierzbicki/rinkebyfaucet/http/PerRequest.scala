@@ -22,7 +22,6 @@ import scala.concurrent.duration._
   After that resources are routed back to the client.
 
  */
-
 case class WithPropsActor(r: RequestContext, props: Props, message: ModelRequest, p: Promise[RouteResult]) extends ActorPerRequest {
   lazy val requestTarget: ActorRef = context.actorOf(props, "target")
 }
