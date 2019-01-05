@@ -4,30 +4,15 @@
 
 package com.jwierzbicki.rinkebyfaucet.http
 
-import java.util.UUID
-
-import akka.http.scaladsl.server.Directives.{pathPrefix, _}
-import akka.actor.{ActorSystem, Props}
-import akka.http.impl.engine.client.PoolFlow
-import akka.http.scaladsl.server.{RequestContext, Route, RouteResult}
-import akka.http.scaladsl.model.StatusCodes.OK
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.server.RouteResult.Complete
-import akka.http.scaladsl.testkit.ScalatestRouteTest
-import akka.stream.{ActorMaterializer, Materializer}
-import akka.stream.actor.ActorPublisherMessage.Request
-import akka.testkit.{ImplicitSender, TestKit}
+import akka.actor.Props
+import akka.http.scaladsl.server.{Route, RouteResult}
 import com.jwierzbicki.rinkebyfaucet.actor.JsonRPCActor
 import com.jwierzbicki.rinkebyfaucet.model._
-import org.scalatest.mockito.MockitoSugar
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.testkit.ScalatestRouteTest
 import org.scalatest.{Matchers, WordSpec}
-import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import akka.http.scaladsl.server._
 import Directives._
+import com.jwierzbicki.rinkebyfaucet.http.ActorPerRequest._
 
 import scala.concurrent.Promise
 

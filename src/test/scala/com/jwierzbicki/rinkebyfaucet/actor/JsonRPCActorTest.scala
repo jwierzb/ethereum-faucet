@@ -9,9 +9,9 @@ import akka.stream.ActorMaterializer
 import akka.testkit.{ImplicitSender, TestKit, TestProbe}
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Any
-import akka.http.scaladsl.server.RequestContext
 import akka.http.scaladsl.model._
 import akka.stream.Materializer
+import com.jwierzbicki.rinkebyfaucet.http.ActorPerRequest._
 import com.jwierzbicki.rinkebyfaucet.model._
 
 import scala.concurrent.ExecutionContext

@@ -9,6 +9,7 @@ import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, StatusCodes}
 import akka.http.scaladsl.server.{RequestContext, RouteResult}
 import akka.http.scaladsl.model.StatusCodes._
+import com.jwierzbicki.rinkebyfaucet.http.ActorPerRequest._
 import com.jwierzbicki.rinkebyfaucet.model._
 
 import scala.concurrent.Promise
@@ -60,11 +61,11 @@ trait ActorPerRequest extends Actor {
   override def receive: Receive = {
     case suc: SuccessfulTransaction => complete(OK, HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<html><body><h>Transaction hash code: ${suc.hash}</h></body></html>"))
     case f: FailedTransaction => complete(NotFound, HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<html><body><h>Internal error</h></body></html>"))
-    case PublicKeyInvalid => complete(BadRequest, HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<html><body><h>Invalid public key</h></body></html>"))
-    case _ => {
+    case f: PublicKeyInvalid => complete(BadRequest, HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<html><body><h>Invalid public key</h></body></html>"))
+    case _ =>
       //Something bad has happened
       complete(BadRequest, HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<html><body><h>Internal error</h></body></html>"))
-    }
+
   }
 
   def complete(m: => ToResponseMarshallable): Unit = {
@@ -75,6 +76,22 @@ trait ActorPerRequest extends Actor {
 
 }
 
+object ActorPerRequest {
 
 
+  /**
+    * ActorPerRequest related domain model
+    */
+  trait ModelResponse
 
+  final case class PublicKeyInvalid() extends ModelResponse
+
+  final case class SuccessfulTransaction(hash: String) extends ModelResponse
+
+  final case class FailedTransaction(message: String) extends ModelResponse
+
+  final case class UnknownErrorR() extends ModelResponse
+
+  final case class ConnectionFailedError() extends ModelResponse
+
+}

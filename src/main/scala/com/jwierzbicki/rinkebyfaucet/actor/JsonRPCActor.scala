@@ -10,12 +10,13 @@ import com.jwierzbicki.rinkebyfaucet.Json.JsonSupport
 import com.typesafe.config.ConfigFactory
 import spray.json._
 
-import scala.concurrent.{Await, ExecutionContext}
+import scala.concurrent.Await
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 
 import scala.concurrent.duration._
 import akka.stream.Materializer
+import com.jwierzbicki.rinkebyfaucet.http.ActorPerRequest._
 import com.jwierzbicki.rinkebyfaucet.model._
 
 
@@ -27,6 +28,7 @@ class JsonRPCActor(implicit ma: Materializer) extends Actor with ActorLogging wi
 
   import context._
   import context.dispatcher
+  import com.jwierzbicki.rinkebyfaucet.actor.JsonRPCActor._
 
   /**
     * Fields important in Future processing (like processing HttpResponse Future or with json marshalling)
@@ -46,8 +48,8 @@ class JsonRPCActor(implicit ma: Materializer) extends Actor with ActorLogging wi
       val pattern = "0x[0-9a-fA-F]{40}".r
       val string = pattern.replaceFirstIn(tr.key, "")
 
-      if (tr.key.isEmpty || !string.isEmpty) {
-        sender() ! PublicKeyInvalid
+      if (tr.key.isEmpty || !string.isEmpty || tr.key == null) {
+        sender() ! PublicKeyInvalid()
       }
       else {
         val configRinkeby = ConfigFactory.load()
@@ -126,6 +128,21 @@ class JsonRPCActor(implicit ma: Materializer) extends Actor with ActorLogging wi
     }
 
   }
+}
+object JsonRPCActor {
 
+
+  /**
+    * JsonRPC related domain model
+    */
+  final case class JsonRPCMethod(jsonrpc: String, method: String, params: List[String], id: Int)
+
+  final case class JsonRPCSendCoin(jsonrpc: String, method: String, params: List[Map[String, String]], id: Int)
+
+  final case class JsonRPCError(code: Int, message: String)
+
+  final case class JsonRPCSucces(jsonrpc: String, id: Int, result: String)
+
+  final case class JsonRPCFail(jsonrpc: String, id: Int, error: JsonRPCError)
 
 }

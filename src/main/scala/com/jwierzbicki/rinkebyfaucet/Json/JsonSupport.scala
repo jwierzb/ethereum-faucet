@@ -5,7 +5,7 @@
 package com.jwierzbicki.rinkebyfaucet.Json
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import com.jwierzbicki.rinkebyfaucet.model._
+import com.jwierzbicki.rinkebyfaucet.actor.JsonRPCActor._
 import spray.json.DefaultJsonProtocol
 
 /**
